@@ -25,7 +25,6 @@ def convert_date(iso_string):
     Returns:
         A date formatted like: Weekday Date Month Year e.g. Tuesday 06 July 2021
     """
-    # from datetime import datetime
  
     time = datetime.fromisoformat(iso_string)
     return(time.strftime("%A %d %B %Y"))
@@ -98,7 +97,7 @@ def load_data_from_csv(csv_file):
 
         return weather_list
 
- 
+    # PASS
 
 
 def find_min(weather_data):
@@ -145,7 +144,6 @@ def find_max(weather_data):
         max_index = max_index_number - max_index_reverse
         return float(max_temp), (max_index)
 
-
     else:  
         return()
 
@@ -160,44 +158,85 @@ def generate_summary(weather_data):
         A string containing the summary information.
     """
 
-    # working
-    # number_of_days = len(load_data_from_csv("tests/data/example_one.csv"))
-    formatted_list = []
-
-    date = convert_date("tests/data/example_one.csv")
-    print(date)
-
-    minimum_temp = find_min
-    maximum_temp = find_max
-
-
-
-
-    lowest_temperature = find_min("min_temperature")
-    # if type(weather_data) is str:
-    #     float (lowest_temperature)
+    # Number of days in overview
+    number_of_days = len(weather_data)
     
+    # Minimum teperature and day/date
+    min_temp_list = []
 
-    print (lowest_temperature)
+    for item in weather_data:
+        minimum_temperature = item[1]
+        min_temp_list.append(minimum_temperature)
 
-    # working
-    #  print (f"{number_of_days} Day Overview")
+    if minimum_temperature:
+        summary_min_temp = (find_min(min_temp_list)[0])
+
+    min_temp_in_c = convert_f_to_c(summary_min_temp)
+
+    for item in weather_data:
+        day = item[0]
+        minimum_temperature = item[1]
+        if summary_min_temp == minimum_temperature:
+            matched_day = day
+
+    minimum_temp_day = convert_date(matched_day)
 
 
+ # Maximum teperature and day/date 
+    max_temp_list = []
 
-    # print (f"The lowest temperature will be {lowest_temperature}")
+    for item in weather_data:
+        maximum_temperature = item[2]
+        max_temp_list.append(maximum_temperature)
 
+    if maximum_temperature:
+        summary_max_temp = (find_max(max_temp_list)[0])
 
-# # Number of days - based on length of list
+    max_temp_in_c = convert_f_to_c(summary_max_temp)
 
-#     print (f"The lowest temperature will be {find_min_variable}°, and will occur on {corresponding_date}")
-# # find_min returns temp + index
-# # if nested list, index for li
+    for item in weather_data:
+        day = item[0]
+        maximum_temperature = item[2]
+        if summary_max_temp == maximum_temperature:
+            matched_day = day
+       
+    maximum_temp_day = convert_date(matched_day)
+   
 
-#     print (f"The highest temperature will be {find_max_variable}°, and will occur on {corresponding_date}")
-#     print (f"The average low this week is {average_low}°C")
-#     print (f"The average high this week is {average_high}°C")
+# Average weekly low
+    average_minimum_list = []
 
+    for item in weather_data:
+        minimum_temperature = item[1]
+        average_minimum_list.append(minimum_temperature)
+   
+    if minimum_temperature:
+        average_low = (calculate_mean(average_minimum_list))
+
+    mean_min_temp_in_c = convert_f_to_c(average_low)
+
+ 
+
+# Average weekly high
+    average_maximum_list = []
+
+    for item in weather_data:
+        maximum_temperature = item[2]
+        average_maximum_list.append(maximum_temperature)
+   
+    if maximum_temperature:
+        average_high = (calculate_mean(average_maximum_list))
+
+    mean_max_temp_in_c = convert_f_to_c(average_high)
+
+    # Summary text
+    day_overview = (f"{number_of_days} Day Overview")
+    day_low_overview = (f"  The lowest temperature will be {min_temp_in_c}{DEGREE_SYMBOL}, and will occur on {minimum_temp_day}.")
+    day_high_overview = (f"  The highest temperature will be {max_temp_in_c}{DEGREE_SYMBOL}, and will occur on {maximum_temp_day}.")
+    average_low_overview = (f"  The average low this week is {mean_min_temp_in_c}{DEGREE_SYMBOL}.")
+    average_high_overview = (f"  The average high this week is {mean_max_temp_in_c}{DEGREE_SYMBOL}.")
+
+    return (day_overview + '\n' + day_low_overview + '\n' + day_high_overview + '\n' + average_low_overview + '\n' + average_high_overview + '\n')
 
 
 
@@ -210,8 +249,33 @@ def generate_daily_summary(weather_data):
         A string containing the summary information.
     """
 
+    daily_summary_output = ""
+
+    for item in weather_data:
+        iso_date = item[0]
+        day = convert_date(iso_date)
+
+        minimum_temp = item[1]
+        minimum_temp_in_c = convert_f_to_c(minimum_temp)
+        daily_minimum_temp = f"{minimum_temp_in_c}{DEGREE_SYMBOL}"
+
+        maximum_temp = item[2]
+        maximum_temp_in_c = convert_f_to_c(maximum_temp)
+        daily_maximum_temp = f"{maximum_temp_in_c}{DEGREE_SYMBOL}"
+
+        daily_summary = (f"---- {day} ----")
+        min_temp_day_summary = (f"  Minimum Temperature: {daily_minimum_temp}")
+        max_temp_day_summary = (f"  Maximum Temperature: {daily_maximum_temp}")
+
+        daily_summary_output = daily_summary_output + daily_summary + '\n' + min_temp_day_summary + '\n' + max_temp_day_summary + '\n\n'
+    
+    return daily_summary_output
+
+
+        
+
     
 
         
-    print (convert_date("weather_data"))
+    
         
