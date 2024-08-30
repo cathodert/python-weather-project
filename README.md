@@ -15,4 +15,4 @@ Have tried to be descriptive with object names. There is a bit of repetition thr
 I would like to explore further ways to do the find min/max. Seems like there should be a more efficient way.
 Summaries also seem to have a lot of repetition and am keen to explore this to see if code can be consolidated/simplified.
 
-![Screenshot in Visual Studio Code showing all tests pass](Screenshot_of_weather_project_tests_passing.png)
+![Screenshot in Visual Studio Code showing all tests pass](Screenshot_weather_project_tests_passing.png)
